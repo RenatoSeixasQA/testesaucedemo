@@ -34,6 +34,34 @@ describe('Teste de login no Sauce Demo', () => {
       .and('have.text', 'Epic sadface: Username and password do not match any user in this service')
   
   })
+  // 3º Caso de teste Validação da frase de erro ao usuário inserir usuário correto e senha incorreta
+describe('Teste de login com senha incorreta', () => {
+    // Antes de cada teste, vai acessar o site
+    beforeEach(() => {
+      cy.visit('https://www.saucedemo.com/v1/')
+    })
+  
+    it('Deve mostrar erro ao tentar logar com senha incorreta', () => {
+      // Verifique se a página carregou corretamente
+      cy.get('body').should('be.visible')
+  
+      // Inserir nome de usuário válido
+      cy.get('#user-name', { timeout: 10000 }).should('be.visible').type('standard_user')
+  
+      // Inserir senha incorreta
+      cy.get('#password').should('be.visible').type('senha_errada')
+  
+      // Clicar no botão de login
+      cy.get('#login-button').click()
+  
+      // Verificar se a mensagem de erro aparece
+      cy.get('h3[data-test="error"]')
+        .should('be.visible')
+        .and('have.text', 'Epic sadface: Username and password do not match any user in this service')
+    })
+    
+    })  
 })
+
 
 
